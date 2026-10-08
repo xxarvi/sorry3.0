@@ -1,0 +1,439 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I'm Sorry</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #111311;
+      color: #d8ddd8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Inter, Arial, sans-serif;
+      padding: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* =========================
+       BACKGROUND SORRY PATTERN
+       ========================= */
+
+    .bg-sorry {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      gap: 18px 28px;
+      padding: 24px;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+
+      font-size: clamp(1.1rem, 3vw, 2.1rem);
+      font-weight: 600;
+      letter-spacing: 3px;
+      line-height: 1.4;
+      color: #252a26;
+      opacity: 0.65;
+      user-select: none;
+    }
+
+    .bg-sorry span {
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    /* =========================
+       MAIN CARD
+       ========================= */
+
+    .terminal {
+      position: relative;
+      z-index: 5;
+
+      width: min(820px, 100%);
+      background: rgba(20, 23, 20, 0.96);
+
+      border: 1px solid #343a35;
+      border-radius: 18px;
+
+      padding: 28px 30px 34px;
+
+      box-shadow:
+        0 24px 60px rgba(0, 0, 0, 0.45);
+
+      overflow: hidden;
+    }
+
+    /* subtle top highlight */
+    .terminal::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #555c56;
+      opacity: 0.5;
+    }
+
+    /* =========================
+       HEADER
+       ========================= */
+
+    .terminal-header {
+      display: flex;
+      gap: 8px;
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid #303530;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #5c635d;
+    }
+
+    /* =========================
+       MAIN SORRY
+       ========================= */
+
+    .sorry-big {
+      text-align: center;
+
+      font-size: clamp(3.5rem, 13vw, 7rem);
+      font-weight: 800;
+      letter-spacing: 8px;
+      line-height: 1;
+
+      color: #dfe3df;
+
+      margin: 20px 0 26px;
+
+      animation: gentleFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-3px);
+      }
+    }
+
+    /* =========================
+       STATUS
+       ========================= */
+
+    .status-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      padding: 10px 14px;
+
+      background: #171a17;
+      border: 1px solid #303530;
+      border-radius: 8px;
+
+      color: #8d958e;
+      font-family: "Courier New", monospace;
+      font-size: 0.78rem;
+
+      margin-bottom: 24px;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 7px;
+      height: 13px;
+      background: #899089;
+      margin-left: 5px;
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    /* =========================
+       MESSAGE
+       ========================= */
+
+    .message-box {
+      min-height: 125px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 25px;
+
+      background: #151815;
+      border: 1px solid #303530;
+      border-radius: 12px;
+
+      color: #cbd0cb;
+
+      text-align: center;
+      font-size: clamp(1.2rem, 3vw, 1.7rem);
+      line-height: 1.5;
+
+      margin-bottom: 28px;
+
+      transition: 0.2s ease;
+    }
+
+    .cute-message {
+      color: #d6d9d5;
+    }
+
+    /* =========================
+       BUTTONS
+       ========================= */
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      min-width: 150px;
+
+      padding: 13px 32px;
+
+      background: #202420;
+      border: 1px solid #4b524c;
+      border-radius: 9px;
+
+      color: #dfe3df;
+
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+
+      cursor: pointer;
+
+      transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .btn:hover {
+      background: #292e29;
+      border-color: #697069;
+      transform: translateY(-2px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-no-run {
+      transition:
+        transform 0.12s cubic-bezier(0.2, 1.4, 0.6, 1),
+        background 0.2s ease;
+    }
+
+    /* =========================
+       MOBILE
+       ========================= */
+
+    @media (max-width: 600px) {
+      body {
+        padding: 14px;
+      }
+
+      .terminal {
+        padding: 20px 16px 25px;
+        border-radius: 14px;
+      }
+
+      .sorry-big {
+        font-size: clamp(3rem, 18vw, 5rem);
+        letter-spacing: 4px;
+      }
+
+      .status-line {
+        font-size: 0.65rem;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .message-box {
+        min-height: 105px;
+        padding: 18px 12px;
+        font-size: 1.15rem;
+      }
+
+      .btn {
+        min-width: 125px;
+        padding: 11px 20px;
+      }
+
+      .bg-sorry {
+        gap: 14px 20px;
+        padding: 16px;
+        font-size: 1.1rem;
+        opacity: 0.5;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Background SORRY pattern -->
+  <div class="bg-sorry" id="bgSorry"></div>
+
+  <!-- Main apology card -->
+  <div class="terminal">
+
+    <div class="terminal-header">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+
+    <div class="sorry-big">
+      SOWwiIIIII
+    </div>
+
+    <div class="status-line">
+      <span>apology.exe</span>
+      <span>waiting for forgiveness <span class="cursor"></span></span>
+    </div>
+
+    <div class="message-box" id="messageBox">
+      urrr like the mosttt prettiestt guyy ikk (happi).
+    </div>
+
+    <div class="buttons">
+      <button class="btn" id="yesBtn">YESHHH:> </button>
+      <button class="btn btn-no-run" id="noBtn">NO:< </button>
+    </div>
+
+  </div>
+
+
+  <script>
+    /* =========================
+       BACKGROUND SORRY
+       ========================= */
+
+    const bgContainer = document.getElementById("bgSorry");
+
+    for (let i = 0; i < 180; i++) {
+      const span = document.createElement("span");
+      span.textContent = "SORRY";
+      bgContainer.appendChild(span);
+    }
+
+
+    /* =========================
+       ELEMENTS
+       ========================= */
+
+    const messageBox = document.getElementById("messageBox");
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+
+
+    /* =========================
+       RUN-AWAY NO BUTTON
+       ========================= */
+
+    function runAway(button) {
+      const x = (Math.random() * 2 - 1) * 140;
+      const y = (Math.random() * 2 - 1) * 90;
+
+      button.style.transform =
+        `translate(${x}px, ${y}px)`;
+    }
+
+
+    function showPlease() {
+      messageBox.innerHTML =
+        `PPPWEASEWEEEE<span class="cursor"></span>`;
+    }
+
+
+    function showThankYou() {
+      messageBox.innerHTML =
+        `thankUUUUUUUUUUU ^^`;
+      messageBox.classList.add("cute-message");
+    }
+
+
+    /* =========================
+       NO BUTTON
+       ========================= */
+
+    noBtn.addEventListener("mouseenter", () => {
+      runAway(noBtn);
+      showPlease();
+    });
+
+    noBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+
+      runAway(noBtn);
+      showPlease();
+
+      setTimeout(() => {
+        runAway(noBtn);
+      }, 100);
+    });
+
+
+    /* =========================
+       YES BUTTON
+       ========================= */
+
+    yesBtn.addEventListener("click", () => {
+      showThankYou();
+
+      setTimeout(() => {
+        runAway(noBtn);
+      }, 100);
+    });
+
+
+    /* =========================
+       MOBILE TOUCH SUPPORT
+       ========================= */
+
+    noBtn.addEventListener("touchstart", () => {
+      runAway(noBtn);
+      showPlease();
+    }, { passive: true });
+
+  </script>
+
+</body>
+</html>
